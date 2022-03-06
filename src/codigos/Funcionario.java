@@ -4,35 +4,104 @@ package codigos;
 
 public class Funcionario {
 	
-	public String nome  = "Caleb Rodrigo da Mota";
-	public int id = 4789651;
-	public String senha_autenticacao  = "q@JRTXqtRpl#";
-	public String registro_ferias= "25/08/2022";
+	private String nome;
+	private String cpf;
+	private String cargo ;
+	private String estado_civil;
+	private String data_ferias;
+	private double salario ;
+	
+	
+	public Funcionario(String nome,String cpf,String cargo,String estado_civil,String data_ferias, double salario) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.cargo = cargo;
+        this.estado_civil = estado_civil;
+        this.data_ferias = data_ferias;
+        this.salario = salario;
+}
+	
+	
+	
+	public String getNome() {
+		return nome;
+	}
 
-	public int id_ocorrencia;
-	public String descricao;
-	public int nivel_prioridade;
-	
-	public String nome_funcionario = "Fabiana Brenda Bernades" ;
-	public long cpf = 85499231520L;
-	public String cargo = "marketing";
-	public String estado_civil = "casada";
-	public String data_ferias = "10/06/2022";
-	public double salario = 1500;
-	
-	
-	private static final int[] pesoCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
-	
-	
+
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+
+
+	public String getCpf() {
+		return cpf;
+	}
+
+
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+
+
+	public String getCargo() {
+		return cargo;
+	}
+
+
+
+	public void setCargo(String cargo) {
+		this.cargo = cargo;
+	}
+
+
+
+	public String getEstado_civil() {
+		return estado_civil;
+	}
+
+
+
+	public void setEstado_civil(String estado_civil) {
+		this.estado_civil = estado_civil;
+	}
+
+
+
+	public String getData_ferias() {
+		return data_ferias;
+	}
+
+
+
+	public void setData_ferias(String data_ferias) {
+		this.data_ferias = data_ferias;
+	}
+
+
+
+	public double getSalario() {
+		return salario;
+	}
+
+
+
+	public void setSalario(double salario) {
+		this.salario = salario;
+	}
+
+
+
 	public boolean verificar_ferias(String data) {
 		
-	 String mes = data_ferias.substring(3,5);
-	 String mes_data = data.substring(3,5);
-	 int mesInt = Integer.parseInt(mes);
-	 int mesInt_Data = 	Integer.parseInt(mes_data);
+	 int mesInt = Integer.parseInt(data_ferias.substring(3,5));
+	 int mesInt_Data = 	Integer.parseInt(data.substring(3,5));
 	
 	 
-	
+	//If verifica se data está pra 3 meses pra menos ou pra mais, caso for verdadeiro ele retorna true, ou seja, ferias aprovada
 	 if(mesInt - 3 <= mesInt_Data && mesInt + 3 >= mesInt_Data  ) {
 		return true;
 	}else {
@@ -42,8 +111,13 @@ public class Funcionario {
 	}
 	
 	public double pagar_ferias() {
+		 double valor = this.salario + ( this.salario / 3);
 		
-		return salario + ( salario / 3);
+		 String result = String.format("%.2f", valor).replace(",", ".");
+		 
+	     double ValorFinal = Double.parseDouble(result);
+	     
+		 return ValorFinal;
 			
 	}
 	
@@ -57,15 +131,14 @@ public class Funcionario {
 		return cpf;
 	}
 	
-	public boolean valida_cpf(String cpf){
-	      String numeros, digitos ;
-	      double resultado;
+	public boolean valida_cpf(){
 
+	      
 	     
 	      
-	      cpf = removeCaracteresEspeciais(cpf); //essa funcão é pra remover pontos ou traço pra nao interferir
+	      this.cpf = removeCaracteresEspeciais(this.cpf); //essa funcão é pra remover pontos ou traço pra nao interferir
 	      
-	      if (cpf.equals("00000000000") || cpf.equals("11111111111") || cpf.equals("22222222222") || cpf.equals("33333333333") || cpf.equals("44444444444") || cpf.equals("55555555555") || cpf.equals("66666666666") || cpf.equals("77777777777") || cpf.equals("88888888888") || cpf.equals("99999999999") || (cpf.length() != 11))
+	      if ( this.cpf.equals("00000000000") ||  this.cpf.equals("11111111111") ||  this.cpf.equals("22222222222") ||  this.cpf.equals("33333333333") ||  this.cpf.equals("44444444444") ||  this.cpf.equals("55555555555") ||  this.cpf.equals("66666666666") ||  this.cpf.equals("77777777777") ||  this.cpf.equals("88888888888") ||  this.cpf.equals("99999999999") || ( this.cpf.length() != 11))
 				{
 	    	  		return false;
 				}
@@ -81,7 +154,7 @@ public class Funcionario {
 					// Loop para ler cada digito do cpf
 				       
 					// (48 eh a posicao de '0' na tabela ASCII) foi a maneira que achei de converter pra string       
-					num = (int) (cpf.charAt(i) - 48);
+					num = (int) ( this.cpf.charAt(i) - 48);
 					soma = soma + (num * peso);
 					peso = peso - 1;
 				}
@@ -97,7 +170,7 @@ public class Funcionario {
 				soma = 0;
 				peso = 11;
 				for (i = 0; i < 10; i++) {
-					num = (int) (cpf.charAt(i) - 48);
+					num = (int) ( this.cpf.charAt(i) - 48);
 					soma = soma + (num * peso);
 					peso = peso - 1;
 				}
@@ -109,7 +182,7 @@ public class Funcionario {
 					dig11 = (char) (r + 48);
 
 				// Verifica se os digitos calculados conferem com os digitos informados.
-				if ((dig10 == cpf.charAt(9)) && (dig11 == cpf.charAt(10)))
+				if ((dig10 ==  this.cpf.charAt(9)) && (dig11 ==  this.cpf.charAt(10)))
 					return true;
 				else
 					return false;
@@ -123,22 +196,22 @@ public class Funcionario {
 		switch (nivel_seriedade) {
 		  case 1: // 10% de penalização
 		   
-		    return salario - (salario * 0.1);
+		    return this.salario - (this.salario * 0.1);
 		  case 2: // 15% de penalização
 			    
-			    return salario - (salario * 0.15);
+			    return this.salario - (this.salario * 0.15);
 		  case 3: // 25% de penalização
 			    
-			    return salario - (salario * 0.25);
+			    return this.salario - (this.salario * 0.25);
 		  case 4: // 40% de penalização
 			    
-			    return salario - (salario * 0.40);
+			    return this.salario - (this.salario * 0.40);
 		  case 5: // 50% de penalização
 			    
-			    return salario - (salario * 0.50);
+			    return this.salario - (this.salario * 0.50);
 		}
 		
-		return 	salario;
+		return 	this.salario;
 	}
 	
 	
